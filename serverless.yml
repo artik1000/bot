@@ -1,0 +1,26 @@
+service: my-telegram-echo-bot
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: russia
+  environment:
+    TELEGRAM_TOKEN: ${env:TELEGRAM_TOKEN}
+
+functions:
+  processWebhook:
+    handler: handler.processWebhook
+    events:
+      - http:
+          path: /
+          method: post
+custom:
+  serverless-offline:
+    noPrependStageInUrl: true
+    host: 'pravda116.ru'
+    httpsProtocol: './cert/'
